@@ -1,0 +1,28 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Builds / temporales
+node_modules/
+dist/
+.cache/
+*.log
+
+# Variables de entorno
+.env
+.env.local
+.env.*.local
+
+# Vercel
+.vercel/
+
+# Netlify
+.netlify/

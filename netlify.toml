@@ -1,0 +1,21 @@
+[build]
+  publish = "."
+  command = ""
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Si quieres usar el form-handling nativo de Netlify (cero backend),
+# agrega data-netlify="true" al <form> en index.html y descomenta:
+# [build.environment]
+#   NETLIFY_NEXT_PLUGIN_SKIP = "true"
