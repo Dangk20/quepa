@@ -705,6 +705,7 @@ footer {
 
       <!-- Waitlist principal del hero — solo correo (rápido, sin fricción) -->
       <form class="waitlist waitlist--compact" id="waitlist-hero" novalidate>
+        <input type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" value="" />
         <input type="email" name="email" placeholder="tu@correo.co" autocomplete="email" required aria-label="Correo electrónico" />
         <button type="submit">Avísame</button>
       </form>
@@ -1038,6 +1039,7 @@ footer {
     </header>
 
     <form class="waitlist" id="waitlist-foot" novalidate>
+      <input type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" value="" />
       <input class="email-input" type="email" name="email" placeholder="tu@correo.co" autocomplete="email" required aria-label="Correo electrónico" />
       <span class="sep" aria-hidden="true"></span>
       <input class="city-input" type="text" name="city" placeholder="¿en qué ciudad?" autocomplete="address-level2" required aria-label="Tu ciudad" list="quepa-ciudades" />
@@ -1107,7 +1109,7 @@ footer {
  *   3) reemplaza el form con un mensaje de éxito (estilo verde-WhatsApp)
  *   4) si falla la red, deja el form igual y muestra error inline
  */
-const WAITLIST_ENDPOINT = ""; // ej: "https://formspree.io/f/abcd1234"
+const WAITLIST_ENDPOINT = "https://webhook.quepa.co/subscribe";
 
 const isEmail = (s) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((s||"").trim());
 
@@ -1120,8 +1122,10 @@ function bind(formId, source) {
     form.querySelectorAll(".err").forEach((n) => n.remove());
     const emailInput = form.querySelector("input[name='email']");
     const cityInput  = form.querySelector("input[name='city']");
+    const honeyInput = form.querySelector("input[name='company']");
     const email = (emailInput.value || "").trim();
     const city  = (cityInput ? cityInput.value : "").trim();
+    const company = (honeyInput ? honeyInput.value : "").trim();
 
     function showError(msg, focusEl) {
       const err = document.createElement("span");
@@ -1150,7 +1154,7 @@ function bind(formId, source) {
         const resp = await fetch(WAITLIST_ENDPOINT, {
           method: "POST",
           headers: { "Content-Type": "application/json", "Accept": "application/json" },
-          body: JSON.stringify({ email, city, source })
+          body: JSON.stringify({ email, city, source, company })
         });
         if (!resp.ok) throw new Error("net");
       } else {
